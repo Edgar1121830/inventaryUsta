@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:h="http://www.w3.org/1999/html"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="/layout/layout :: head"/>
+
+<body>
+<head th:replace="/layout/layout :: header"/>
+<div class="container py-4">
+    <div class="card bg-light">
+        <div class="card-header" th:text="${nombreTitulo}"></div>
+               <div class="card-body">
+                    <div th:object="${cliente}" th:remove="tag">
+                        <ul th:if="${#fields.hasErrors('*') }" class="alert alert-danger">
+                            <li th:each="erra: ${#fields.hasErrors('*')}" th:text="${erra}"></li>
+                        </ul>
+                    </div>
+
+                   <form th:action="@{/client/formPersons}" th:object="${cliente}" method="post" enctype="multipart/form-data">
+                       <div class="container">
+                           <div class="form-group row">
+                               <input type="hidden" th:field="*{persona.idPersona}"/>
+                               <input type="hidden" th:field="*{cliente.idCliente}">
+
+                               <label class="col-sm-3 col-form-label" for="tpdoc">Tipo Documento</label>
+                               <div class="col-sm-6">
+                                   <select id="tpdoc" class="form-control" name="tpDoc" th:field="*{persona.idTipo}">
+                                       <option value="">--SELECCIONAR--</option>
+                                       <option th:each="tp: ${tipDocument}" th:value="${tp.idTipo}" th:text="${tp.nombre}"></option>
+                                   </select>
+                                   <small class="form-text text-danger" th:if="${#fields.hasErrors('persona.idTipo')}" th:errors="*{persona.idTipo}"/>
+                               </div>
+                           </div>
+
+                           <div class="form-group row">
+                               <label class="col-sm-3 col-form-label">Numero Documento</label>
+                               <div class="col-sm-6">
+                                   <input id="document" class="form-control" type="number" th:field="*{persona.documento}" th:errorclass="form-control alert-danger">
+                                   <small class="form-text text-danger" th:if="${#fields.hasErrors('persona.documento')}" th:errors="*{persona.documento}"/>
+                               </div>
+                           </div>
+
+
+                           <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Nombre</label>
+                                <div class="col-sm-6">
+                                    <input id="nombreP" class="form-control" type="text" th:field="*{persona.primerNombre}" th:errorclass="form-control alert-danger">
+                                    <small class="form-text text-danger" th:if="${#fields.hasErrors('persona.primerNombre')}" th:errors="*{persona.primerNombre}"/>
+                                </div>
+                            </div>
+
+                           <div class="form-group row">
+                               <label class="col-sm-3 col-form-label">Segundo Nombre</label>
+                               <div class="col-sm-6">
+                                   <input id="nombreDos" class="form-control" type="text" th:field="*{persona.segundoNombre}" th:errorclass="form-control alert-danger">
+                                   <small class="form-text text-danger" th:if="${#fields.hasErrors('persona.segundoNombre')}" th:errors="*{persona.segundoNombre}"/>
+                               </div>
+                           </div>
+
+                           <div class="form-group row">
+                               <label class="col-sm-3 col-form-label">Primer Apellido</label>
+                               <div class="col-sm-6">
+                                   <input id="pApell" class="form-control" type="text" th:field="*{persona.primerApellido}" th:errorclass="form-control alert-danger">
+                                   <small class="form-text text-danger" th:if="${#fields.hasErrors('persona.primerApellido')}" th:errors="*{persona.primerApellido}"/>
+                               </div>
+                           </div>
+
+                           <div class="form-group row">
+                               <label class="col-sm-3 col-form-label">Segundo Apellido</label>
+                               <div class="col-sm-6">
+                                   <input id="sApell" class="form-control" type="text" th:field="*{persona.segundoApellido}" th:errorclass="form-control alert-danger">
+                                   <small class="form-text text-danger" th:if="${#fields.hasErrors('persona.segundoApellido')}" th:errors="*{persona.segundoApellido}"/>
+                               </div>
+                           </div>
+
+                           <div class="form-group row">
+                               <label class="col-sm-3 col-form-label" for="genero">GENERO</label>
+                               <div class="col-sm-6">
+                                   <select id="genero" class="form-control" name="genero" th:field="*{persona.genero}">
+                                       <option value="">--SELECCIONAR--</option>
+                                       <option th:each="g: ${genero}" th:value="${g.idGenero}" th:text="${g.desc}"></option>
+                                   </select>
+                               </div>
+                           </div>
+
+                           <div class="form-group row">
+                               <label class="col-sm-3 col-form-label">Fecha Nacimiento</label>
+                               <div class="col-sm-6">
+                                   <input id="fechNaci" class="form-control" type="text" th:field="*{persona.fechaNacimiento}">
+                                   <!--<small class="form-text text-danger" th:if="${#fields.hasErrors('persona.fechaNacimiento')}" th:errors="*{persona.fechaNacimiento}"/>-->
+                               </div>
+                           </div>
+
+                           <div class="form-group row">
+                               <label class="col-sm-3 col-form-label"># Telefono</label>
+                               <div class="col-sm-6">
+                                   <input id="telefono" class="form-control" type="number" th:field="*{persona.telefono}" th:errorclass="form-control alert-danger">
+                                   <small class="form-text text-danger" th:if="${#fields.hasErrors('persona.telefono')}" th:errors="*{persona.telefono}"/>
+                               </div>
+                           </div>
+
+                           <div class="form-group row">
+                               <label class="col-sm-3 col-form-label">Ciudad Origen</label>
+                               <div class="col-sm-6">
+                                   <select id="ciud" class="form-control" name="ciud" th:field="*{persona.idCiudad}">
+                                       <option value="">--SELECCIONAR--</option>
+                                       <option th:each="c: ${ciudades}" th:value="${c.idCiudad}" th:text="${c.nombre}"></option>
+                                   </select>
+                               </div>
+                           </div>
+
+                           <div class="form-group row">
+                               <label class="col-sm-3 col-form-label">Direccion</label>
+                               <div class="col-sm-6">
+                                   <input id="direccion" class="form-control" type="text" th:field="*{persona.direccion}" th:errorclass="form-control alert-danger">
+                                   <small class="form-text text-danger" th:if="${#fields.hasErrors('persona.direccion')}" th:errors="*{persona.direccion}"/>
+                               </div>
+                           </div>
+
+                           <div class="form-group row">
+                               <label class="col-sm-3 col-form-label">Email</label>
+                               <div class="col-sm-6">
+                                   <input id="email" class="form-control" type="text" th:field="*{cliente.email}" th:errorclass="form-control alert-danger">
+                                   <small class="form-text text-danger" th:if="${#fields.hasErrors('cliente.email')}" th:errors="*{cliente.email}"/>
+                               </div>
+                           </div>
+                           <div class="form-group row">
+                               <label class="col-sm-3 col-form-label">Telefono Contacto</label>
+                               <div class="col-sm-6">
+                                   <input id="contcel" class="form-control" type="number" th:field="*{cliente.telefonoContacto}" th:errorclass="form-control alert-danger">
+                                   <small class="form-text text-danger" th:if="${#fields.hasErrors('cliente.telefonoContacto')}" th:errors="*{cliente.telefonoContacto}"/>
+                               </div>
+                           </div>
+
+                           <div class="form-group row">
+                               <label class="col-sm-3 col-form-label">Direccion Entrega</label>
+                               <div class="col-sm-6">
+                                   <input id="direntre" class="form-control" type="text" th:field="*{cliente.direccionEntrega}" th:errorclass="form-control alert-danger">
+                                   <small class="form-text text-danger" th:if="${#fields.hasErrors('cliente.direccionEntrega')}" th:errors="*{cliente.direccionEntrega}"/>
+                               </div>
+                           </div>
+
+                         <div class="form-group row">
+                             <div class="col-sm-6">
+                                 <input type="submit" value="Crear Cliente" class="btn btn-primary"/>
+                             </div>
+                         </div>
+
+                       </div>
+                   </form>
+               </div>
+
+    </div>
+</div>
+<footer th:replace="/layout/layout :: footer"></footer>
+</body>
+</html>
