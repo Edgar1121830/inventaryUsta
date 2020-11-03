@@ -19,5 +19,12 @@ public interface IPersonaDao extends CrudRepository<Persona, Integer> {
             "from Persona p, Cliente c where c.idCliente = p.idPersona" )
     public List<Object[]> findAllPersonClient();
 
+   @Query("select p.idPersona, p.documento, p.direccion, p.fechaNacimiento, " +
+           "p.genero, p.primerApellido, p.segundoApellido, " +
+           "p.primerNombre, p.segundoNombre, p.direccion,p.telefono," +
+           "e.estado, e.email, e.cargo, e.eps "+
+           "from Persona p, Empleado e where e.idEmpleado = p.idPersona")
+    public List<Object[]> findallPersonEmpleado();
+
 
 }
